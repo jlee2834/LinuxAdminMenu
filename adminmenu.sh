@@ -28,7 +28,7 @@ show_menu() {
     echo -n "Select a number (1-10): "
 }
 
-# 1. Shows the ip and gateway only 
+# 1. Show IP --- Shows The IP & Gateway Only 
 show_ip_gateway() {
     echo ""
     echo "IP Address and Gateway:"
@@ -36,28 +36,28 @@ show_ip_gateway() {
     ip route | grep default | awk '{print "Gateway: "$3}'
 }
 
-# Function to show just the gateway
+# 2. Show Gateway --- ShowS Gateway Only
 show_gateway() {
     echo ""
     echo "Default Gateway:"
     ip route | grep default | awk '{print $3}'
 }
 
-# Function to enable the firewall
+# 3. Enable Firewall
 enable_firewall() {
     echo ""
     echo "Enabling Firewall..."
     sudo ufw enable
 }
 
-# Function to disable the firewall
+# 3. Disable Firewall
 disable_firewall() {
     echo ""
     echo "Disabling Firewall..."
     sudo ufw disable
 }
 
-# Function to check or change the hostname
+# 4. Checks / Changes Machine Hostname
 check_change_hostname() {
     echo ""
     echo "Current Hostname: $(hostname)"
@@ -71,21 +71,21 @@ check_change_hostname() {
     fi
 }
 
-# Function to show the Linux distribution name
+# 5. Linux Distribution --- Shows Only The Distribution Name
 show_linux_distribution() {
     echo ""
     echo "Linux Distribution:"
     cat /etc/*release | grep -E "NAME=" | cut -d'=' -f2 | tr -d '"'
 }
 
-# Function to run software updates
+# 6. Runs Software Updates
 run_updates() {
     echo ""
     echo "Running Software Updates..."
     sudo apt update && sudo apt upgrade -y
 }
 
-# Function to check memory usage
+# 7. Checks Memory
 check_memory() {
     echo ""
     echo "Memory Usage:"
@@ -93,7 +93,7 @@ check_memory() {
     free -h
 }
 
-# Function to show the remaining storage space
+# 8. Shows Remaining Storage Space
 check_storage() {
     echo ""
     echo "Remaining Storage Space:"
@@ -117,10 +117,10 @@ while [ "$do_exit" = false ]; do
         8) check_memory ;;
         9) check_storage ;;
         10) do_exit=true ;;
-        *) echo "Invalid choice, please try again." ;;
+        *) echo "Invalid Selection" ;;
     esac
     echo ""
-    echo "Press Enter to continue..."
+    echo "Press Enter To Continue"
     read
 done
 
