@@ -100,28 +100,3 @@ check_storage() {
 # Report file system disk space usage
     df -h /
 }
-
-# Main loop
-do_exit=false
-while [ "$do_exit" = false ]; do
-    show_menu
-    read choice
-    case $choice in
-        1) show_ip_gateway ;;
-        2) show_gateway ;;
-        3) enable_firewall ;;
-        4) disable_firewall ;;
-        5) check_change_hostname ;;
-        6) show_linux_distribution ;;
-        7) run_updates ;;
-        8) check_memory ;;
-        9) check_storage ;;
-        10) do_exit=true ;;
-        *) echo "Invalid Selection" ;;
-    esac
-    echo ""
-    echo "Press Enter To Continue"
-    read
-done
-
-echo "Menu Exited"
