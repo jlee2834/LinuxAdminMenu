@@ -1,25 +1,34 @@
 #!/bin/bash
 
-# This script shows a simple menu with options to perform basic tasks on your computer.
+# NETW 217 Final Project - Hands On
+# Menu-driven administration program (Bash)
+# 1. Show IP (Shows IP and Gateway Only)
+# 2. Show Gateway (Show Gateway Only)
+# 3. Enable/Disable Firewall
+# 4. Check/Change Machine Hostname
+# 5. Linux Distribution (Show only the distribution name)
+# 6. Run software updates
+# 7. Check memory
+# 8. Remaining storage space.
 
 # Function to show the menu
 show_menu() {
     echo ""
-    echo "===== Admin Menu ====="
-    echo "1. Show IP and Gateway"
+    echo "--=== Administration Program ===--"
+    echo "1. Show IP"
     echo "2. Show Gateway"
     echo "3. Enable Firewall"
     echo "4. Disable Firewall"
-    echo "5. Check or Change Hostname"
-    echo "6. Show Linux Distribution"
+    echo "5. Check/Change Hostname"
+    echo "6. Linux Distribution"
     echo "7. Run Software Updates"
-    echo "8. Check Memory Usage"
-    echo "9. Show Remaining Storage Space"
+    echo "8. Check Memory"
+    echo "9. Remaining Storage Space"
     echo "10. Exit"
-    echo -n "Enter your choice (1-10): "
+    echo -n "Select a number (1-10): "
 }
 
-# Function to show the IP address and gateway
+# 1. Shows the ip and gateway only 
 show_ip_gateway() {
     echo ""
     echo "IP Address and Gateway:"
@@ -80,6 +89,7 @@ run_updates() {
 check_memory() {
     echo ""
     echo "Memory Usage:"
+# Display amount of free and used memory in the system
     free -h
 }
 
@@ -87,6 +97,7 @@ check_memory() {
 check_storage() {
     echo ""
     echo "Remaining Storage Space:"
+# Report file system disk space usage
     df -h /
 }
 
@@ -113,4 +124,4 @@ while [ "$do_exit" = false ]; do
     read
 done
 
-echo "Exiting Admin Menu. Goodbye!"
+echo "Menu Exited"
