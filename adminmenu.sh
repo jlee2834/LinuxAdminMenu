@@ -1,26 +1,19 @@
 #!/bin/bash
 
-# NETW 217 Final Project - Hands On
-# Menu-driven administration program (Bash)
-# 1. Show IP (Shows IP and Gateway Only)
-# 2. Show Gateway (Show Gateway Only)
-# 3. Enable/Disable Firewall
-# 4. Check/Change Machine Hostname
-# 5. Linux Distribution (Show only the distribution name)
-# 6. Run software updates
-# 7. Check memory
-# 8. Remaining storage space.
+# NETW 217 Final Project - Hands On Admin Script
+# Sources used: man pages (man hostnamectl, man ip, man free, man df), Ubuntu/Debian docs, Linux Mint forums
 
 # Function to show the menu
+# Displays all available options to the user
 show_menu() {
     echo ""
-    echo "--=== Administration Program ===--"
-    echo "1. Show IP"
-    echo "2. Show Gateway"
+    echo "--=== Linux Mint Administration Menu ===--"
+    echo "1. Show IP and Gateway"
+    echo "2. Show Gateway Only"
     echo "3. Enable Firewall"
     echo "4. Disable Firewall"
     echo "5. Check/Change Hostname"
-    echo "6. Linux Distribution"
+    echo "6. Show Linux Distribution"
     echo "7. Run Software Updates"
     echo "8. Check Memory"
     echo "9. Remaining Storage Space"
@@ -28,41 +21,42 @@ show_menu() {
     echo -n "Select a number (1-10): "
 }
 
-# 1. Show IP --- Shows The IP & Gateway Only 
+# 1. Show IP and Gateway
+# Simplified: hostname -I for IP, ip route show default for gateway
 show_ip_gateway() {
-    echo ""
-    echo "IP Address and Gateway:"
-    ip -4 addr show | grep inet
-    ip route | grep default | awk '{print "Gateway: "$3}'
+    echo -e "\n[IP Address and Gateway]"
+    ip_addr=$(hostname -I | awk '{print $1}')
+    gateway=$(ip route show default | awk '/default/ {print $3}')
+    echo "IP Address: $ip_addr"
+    echo "Gateway: $gateway"
 }
 
-# 2. Show Gateway --- ShowS Gateway Only
+# 2. Show Gateway Only
+# Simplified version of default gateway lookup
 show_gateway() {
-    echo ""
-    echo "Default Gateway:"
-    ip route | grep default | awk '{print $3}'
+    echo -e "\n[Gateway]"
+    gateway=$(ip route show default | awk '/default/ {print $3}')
+    echo "Gateway: $gateway"
 }
 
 # 3. Enable Firewall
+# Enables UFW with sudo
 enable_firewall() {
-    echo ""
-    echo "Enabling Firewall..."
-    sudo ufw enable
+    sudo ufw enable && echo "Firewall is enabled :)"
 }
 
-# 3. Disable Firewall
+# 4. Disable Firewall
+# Disables UFW with sudo
 disable_firewall() {
-    echo ""
-    echo "Disabling Firewall..."
-    sudo ufw disable
+    sudo ufw disable && echo "Firewall is disabled :("
 }
 
-# 4. Checks / Changes Machine Hostname
+# 5. Check/Change Hostname
+# Uses hostnamectl for persistent hostname changes
 check_change_hostname() {
-    echo ""
-    echo "Current Hostname: $(hostname)"
-    echo -n "Enter new hostname (or leave blank to keep current): "
-    read new_hostname
+    echo -e "\n[Hostname Options]"
+    echo "Hostname: $(hostname)"
+    read -p "Enter New Hostname:" new_hostname
     if [ ! -z "$new_hostname" ]; then
         sudo hostnamectl set-hostname "$new_hostname"
         echo "Hostname changed to $new_hostname."
@@ -71,32 +65,51 @@ check_change_hostname() {
     fi
 }
 
-# 5. Linux Distribution --- Shows Only The Distribution Name
+# 6. Show Linux Distribution
+# Simplified using /etc/os-release instead of lsb_release
 show_linux_distribution() {
-    echo ""
-    echo "Linux Distribution:"
-    cat /etc/*release | grep -E "NAME=" | cut -d'=' -f2 | tr -d '"'
+    echo -e "\n[Linux Distribution]"
+    distro=$(grep '^PRETTY_NAME=' /etc/os-release | cut -d= -f2 | tr -d '"')
+    echo "Distribution: $distro"
 }
 
-# 6. Runs Software Updates
+# 7. Run Software Updates
+# Runs apt update and upgrade
 run_updates() {
-    echo ""
-    echo "Running Software Updates..."
+    echo -e "\n[Running Software Updates]"
     sudo apt update && sudo apt upgrade -y
+    echo "Software Updated"
 }
 
-# 7. Checks Memory
+# 8. Check Memory Usage
+# Displays memory status in human-readable format
 check_memory() {
-    echo ""
-    echo "Memory Usage:"
-# Display amount of free and used memory in the system
+    echo -e "\n[Memory Usage]"
     free -h
 }
 
-# 8. Shows Remaining Storage Space
+# 9. Check Remaining Storage Space
+# Shows root partition disk usage
 check_storage() {
-    echo ""
-    echo "Remaining Storage Space:"
-# Report file system disk space usage
+    echo -e "\n[Remaining Storage Space]"
     df -h /
 }
+
+# Main loop that keeps the menu running until user exits
+while true; do
+    show_menu
+    read choice
+    case $choice in
+        1) show_ip_gateway;;
+        2) show_gateway;;
+        3) enable_firewall;;
+        4) disable_firewall;;
+        5) check_change_hostname;;
+        6) show_linux_distribution;;
+        7) run_updates;;
+        8) check_memory;;
+        9) check_storage;;
+        10) echo "Exiting program."; break;;
+        *) echo "Invalid option. Please choose 1–10.";;
+    esac
+done
