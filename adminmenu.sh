@@ -21,7 +21,7 @@ show_menu() {
     echo -n "Select a number (1-10): "
 }
 
-# 1. Show IP and Gateway
+# 1. Show IP and Gateway (https://serverfault.com/questions/31170/how-to-find-the-gateway-ip-address-in-linux)
 # Simplified: hostname -I for IP, ip route show default for gateway
 show_ip_gateway() {
     echo -e "\n[IP Address and Gateway]"
@@ -31,7 +31,7 @@ show_ip_gateway() {
     echo "Gateway: $gateway"
 }
 
-# 2. Show Gateway Only
+# 2. Show Gateway Only (https://serverfault.com/questions/31170/how-to-find-the-gateway-ip-address-in-linux)
 # Simplified version of default gateway lookup
 show_gateway() {
     echo -e "\n[Gateway]"
@@ -39,20 +39,17 @@ show_gateway() {
     echo "Gateway: $gateway"
 }
 
-# 3. Enable Firewall
-# Enables UFW with sudo
+# 3. Enable Firewall (https://www.cyberciti.biz/faq/linux-disable-firewall-command/)
 enable_firewall() {
     sudo ufw enable && echo "Firewall is enabled :)"
 }
 
-# 4. Disable Firewall
-# Disables UFW with sudo
+# 4. Disable Firewall (https://www.cyberciti.biz/faq/linux-disable-firewall-command/)
 disable_firewall() {
     sudo ufw disable && echo "Firewall is disabled :("
 }
 
-# 5. Check/Change Hostname
-# Uses hostnamectl for persistent hostname changes
+# 5. Check/Change Hostname (https://www.redhat.com/en/blog/configure-hostname-linux)
 check_change_hostname() {
     echo -e "\n[Hostname Options]"
     echo "Hostname: $(hostname)"
@@ -65,8 +62,7 @@ check_change_hostname() {
     fi
 }
 
-# 6. Show Linux Distribution
-# Simplified using /etc/os-release instead of lsb_release
+# 6. Show Linux Distribution (https://www.cyberciti.biz/faq/find-linux-distribution-name-version-number/)
 show_linux_distribution() {
     echo -e "\n[Linux Distribution]"
     distro=$(grep '^PRETTY_NAME=' /etc/os-release | cut -d= -f2 | tr -d '"')
@@ -81,14 +77,14 @@ run_updates() {
     echo "Software Updated"
 }
 
-# 8. Check Memory Usage
+# 8. Check Memory Usage (https://unix.stackexchange.com/questions/119126/command-to-display-memory-usage-disk-usage-and-cpu-load)
 # Displays memory status in human-readable format
 check_memory() {
     echo -e "\n[Memory Usage]"
     free -h
 }
 
-# 9. Check Remaining Storage Space
+# 9. Check Remaining Storage Space (https://www.howtogeek.com/409611/how-to-view-free-disk-space-and-disk-usage-from-the-linux-terminal/)
 # Shows root partition disk usage
 check_storage() {
     echo -e "\n[Remaining Storage Space]"
